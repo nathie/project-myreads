@@ -21,11 +21,12 @@ class BooksApp extends React.Component {
   }
 
   moveToShelf = (index, shelfName) => {
-    let bookList = this.state.books
+    let book, bookList = this.state.books
 
     bookList.filter((item) => {
       if(item.index === index) {
-        item.book.shelf = shelfName
+        book = item.book
+        book.shelf = shelfName
       }
       return false;
     })

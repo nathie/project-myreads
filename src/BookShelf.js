@@ -19,7 +19,11 @@ class BookShelf extends Component {
               <div className="book-top">
                 <img alt="Book Cover" className="book-cover" src={ item.book.imageLinks.thumbnail }/>
                 <div className="book-shelf-changer">
-                  <select onChange={(event) => onMoveToShelf(item.index, event.target.value)}>
+                  <select
+                    defaultValue={item.book.shelf}
+                    onChange={(event) => {
+                      onMoveToShelf(item.index, event.target.value)
+                    }}>
                     <option value="none" disabled>Move to...</option>
                     <option value="currentlyReading">Currently Reading</option>
                     <option value="wantToRead">Want to Read</option>
