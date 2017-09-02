@@ -5,17 +5,27 @@ import BookShelf from './BookShelf'
 
 class ListBooks extends Component {
   static propTypes = {
-    books: PropTypes.array.isRequired
+    books: PropTypes.array.isRequired,
+    onMoveToShelf: PropTypes.func.isRequired
+  }
+
+  filterByShelf = (shelfName) => {
+    return (acc, item) => {
+      if(item.book.shelf === shelfName) {
+        acc.push(item)
+      }
+      return acc
+    }
   }
 
   render() {
 
-    const { books } = this.props
+    const { books, onMoveToShelf } = this.props
     let currentBooks, wantBooks, readBooks
 
-    currentBooks = books.filter((book) => book.shelf === 'currentlyReading')
-    wantBooks = books.filter((book) => book.shelf === 'wantToRead')
-    readBooks = books.filter((book) => book.shelf === 'read')
+    currentBooks = books.reduce(this.filterByShelf('currentlyReading'), [])
+    wantBooks = books.reduce(this.filterByShelf('wantToRead'), [])
+    readBooks = books.reduce(this.filterByShelf('read'), [])
 
     return (
       <div className="list-books">
@@ -27,7 +37,9 @@ class ListBooks extends Component {
             <div className="bookshelf">
               <h2 className="bookshelf-title">Currently Reading</h2>
               <div className="bookshelf-books">
-                <BookShelf bookList={ currentBooks }/>
+                <BookShelf
+                  bookList={ currentBooks }
+                  onMoveToShelf={ this.props.moveToShelf}/>
               </div>
             </div>
             <div className="bookshelf">

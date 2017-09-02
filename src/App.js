@@ -7,13 +7,26 @@ import SearchBook from './SearchBook'
 
 class BooksApp extends React.Component {
   state = {
-    books: []
+    books: [],
+    booksWithIndex: []
   }
 
   componentDidMount() {
+
+    let bookIndexed
+
     BooksAPI.getAll().then((books) => {
       this.setState({ books })
+
+      bookIndexed = books.map((book, i) => ({index: i, book: book}));
+      this.setState({ booksWithIndex: bookIndexed })
     })
+  }
+
+
+
+  moveToShelf = () => {
+    //this.setState({ books[bookIndex].shelf = shelf })
   }
 
   render() {
@@ -21,7 +34,8 @@ class BooksApp extends React.Component {
       <div className="app">
         <Route exact path='/' render={() => (
           <ListBooks
-            books={this.state.books}
+            books={this.state.booksWithIndex}
+            onMoveToShelf={this.moveToShelf.bind(this)}
           />
         )}/>
 
