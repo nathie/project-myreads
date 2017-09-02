@@ -39,19 +39,23 @@ class ListBooks extends Component {
               <div className="bookshelf-books">
                 <BookShelf
                   bookList={ currentBooks }
-                  onMoveToShelf={ this.props.moveToShelf}/>
+                  onMoveToShelf={ onMoveToShelf }/>
               </div>
             </div>
             <div className="bookshelf">
               <h2 className="bookshelf-title">Want to Read</h2>
               <div className="bookshelf-books">
-                <BookShelf bookList={ wantBooks } />
+                <BookShelf
+                  bookList={ wantBooks }
+                  onMoveToShelf={ onMoveToShelf } />
               </div>
             </div>
             <div className="bookshelf">
               <h2 className="bookshelf-title">Read</h2>
               <div className="bookshelf-books">
-                <BookShelf bookList={ readBooks } />
+                <BookShelf
+                  bookList={ readBooks }
+                  onMoveToShelf={ onMoveToShelf } />
               </div>
             </div>
           </div>
