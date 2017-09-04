@@ -6,7 +6,7 @@ import BookShelf from './BookShelf'
 
 class SearchBook extends Component {
   static propTypes = {
-    onMoveToShelf: PropTypes.func.isRequired
+    addToShelf: PropTypes.func.isRequired
   }
 
   state = {
@@ -59,7 +59,7 @@ class SearchBook extends Component {
           {bookList.length ? (
             <BookShelf
               bookList={ bookList }
-              onMoveToShelf={ this.props.onMoveToShelf } />
+              onMoveToShelf={ this.props.addToShelf } />
           ) : (
             <h4>No results</h4>
           )}

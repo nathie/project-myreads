@@ -43,7 +43,11 @@ class BookShelf extends Component {
                   <select
                     defaultValue={item.book.shelf}
                     onChange={(event) => {
-                      onMoveToShelf(item.index, event.target.value)
+                      if(item.book.hasOwnProperty('shelf'))
+                        onMoveToShelf(item.index, event.target.value)
+                      else
+                        // Add new book to shelf
+                        onMoveToShelf(item.book, event.target.value)
                     }}>
                     <option value="none" disabled>Move to...</option>
                     <option value="currentlyReading">Currently Reading</option>

@@ -20,6 +20,20 @@ class BooksApp extends React.Component {
     })
   }
 
+  addToShelf = (newBook, shelfName) => {
+    let bookList = this.state.books
+    let index = bookList.length
+
+    // Add Shelf property to the book object
+    newBook.shelf = shelfName
+
+    // Add new book to my book list
+    bookList.push({ index: index, book: newBook })
+    this.setState({ books: bookList});
+
+    BooksAPI.update(newBook, shelfName)
+  }
+
   moveToShelf = (index, shelfName) => {
     let book, bookList = this.state.books
 
@@ -48,7 +62,8 @@ class BooksApp extends React.Component {
 
         <Route exact path='/search' render={({ history }) => (
           <SearchBook
-            onMoveToShelf={this.moveToShelf.bind(this)} />
+            myBooksList={this.state.books}
+            addToShelf={this.addToShelf.bind(this)} />
         )}/>
       </div>
     )
