@@ -31,23 +31,23 @@ class BookShelf extends Component {
     return (
 
       <ol className="books-grid">
-        {bookList.map((item) => (
-          <li key={item.book.id ? item.book.id : ""}>
+        {bookList.map((book) => (
+          <li key={book.id ? book.id : ""}>
             <div className="book">
               <div className="book-top">
                 <img alt="Book Cover" className="book-cover" src={
-                  this.renderThumbnail(item.book)
+                  this.renderThumbnail(book)
                 }/>
                 <div className="book-shelf-changer">
                   <select
-                    defaultValue={item.book.hasOwnProperty('shelf')? item.book.shelf: 'disabled'}
+                    defaultValue={book.hasOwnProperty('shelf')? book.shelf: 'disabled'}
                     //defaultValue={item.book.shelf}
                     onChange={(event) => {
-                      if(item.book.hasOwnProperty('shelf'))
-                        onMoveToShelf(item.index, event.target.value)
+                      if(book.hasOwnProperty('shelf'))
+                        onMoveToShelf(book, event.target.value)
                       else {
                         // Add new book to shelf
-                        updateMainBookList(item.book, event.target.value)
+                        updateMainBookList(book, event.target.value)
                       }
                     }}>
                     <option value="disabled" disabled>Move to...</option>
@@ -58,8 +58,8 @@ class BookShelf extends Component {
                   </select>
                 </div>
               </div>
-              <div className="book-title">{ item.book.title }</div>
-              {this.renderAuthorList(item.book.authors)}
+              <div className="book-title">{   book.title }</div>
+              {this.renderAuthorList(book.authors)}
             </div>
           </li>
         ))}

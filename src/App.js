@@ -10,42 +10,33 @@ class BooksApp extends React.Component {
     books: []
   }
 
-  componentDidMount = () => {
-
-    let bookIndexed
-
+  getAllMyBooks = () => {
     BooksAPI.getAll().then((books) => {
-      bookIndexed = books.map((book, i) => ({index: i, book: book}));
-      this.setState({ books: bookIndexed })
+      this.setState({ books: books })
     })
   }
 
+  componentDidMount = () => {
+    this.getAllMyBooks()
+  }
+
   addToShelf = (newBook) => {
-    let bookList = this.state.books
+    /*let bookList = this.state.books
     let index = bookList.length
 
     // Add new book to my book list
     bookList.push({ index: index, book: newBook })
     this.setState({ books: bookList})
 
-    BooksAPI.update(newBook, newBook.shelfName)
+    BooksAPI.update(newBook, newBook.shelfName)*/
 
   }
 
-  moveToShelf = (index, shelfName) => {
-    let book, bookList = this.state.books
+  moveToShelf = (newBook, shelfName) => {
 
-    bookList.filter((item) => {
-      if(item.index === index) {
-        book = item.book
-        book.shelf = shelfName
-      }
-      return false;
-    })
+    BooksAPI.update(newBook, shelfName)
 
-    this.setState({ books: bookList })
-
-    BooksAPI.update(book, shelfName)
+    this.getAllMyBooks()
   }
 
   render() {

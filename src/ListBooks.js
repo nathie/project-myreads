@@ -10,9 +10,9 @@ class ListBooks extends Component {
   }
 
   filterByShelf = (shelfName) => {
-    return (acc, item) => {
-      if(item.book.shelf === shelfName) {
-        acc.push(item)
+    return (acc, book) => {
+      if(book.shelf === shelfName) {
+        acc.push(book)
       }
       return acc
     }
