@@ -47,7 +47,8 @@ class BooksApp extends React.Component {
         )}/>
 
         <Route exact path='/search' render={({ history }) => (
-          <SearchBook />
+          <SearchBook
+            onMoveToShelf={this.moveToShelf.bind(this)} />
         )}/>
       </div>
     )

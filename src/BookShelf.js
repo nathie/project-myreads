@@ -7,6 +7,17 @@ class BookShelf extends Component {
     onMoveToShelf: PropTypes.func.isRequired
   }
 
+  renderAuthorList = (authors) => {
+    if (authors === undefined) {
+      return (<p>This book has no authors</p>)
+    }
+    else {
+      return authors.map((author, index) => (
+          <div key={index} className="book-authors">{ author }</div>
+      ))
+    }
+  }
+
   render() {
 
     let { bookList, onMoveToShelf } = this.props
@@ -33,9 +44,7 @@ class BookShelf extends Component {
                 </div>
               </div>
               <div className="book-title">{ item.book.title }</div>
-              {item.book.authors.map((author, index) => (
-                <div key={index} className="book-authors">{ author }</div>
-              ))}
+              {this.renderAuthorList(item.book.authors)}
             </div>
           </li>
         ))}
