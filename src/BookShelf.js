@@ -18,17 +18,27 @@ class BookShelf extends Component {
     }
   }
 
+  renderThumbnail = (book) => {
+    if(book.imageLinks)
+      return book.imageLinks.thumbnail
+    else
+      return "https://books.google.com/googlebooks/images/no_cover_thumb.gif"
+  }
+
   render() {
 
     let { bookList, onMoveToShelf } = this.props
 
     return (
+
       <ol className="books-grid">
         {bookList.map((item) => (
-          <li key={item.book.id}>
+          <li key={item.book.id ? item.book.id : ""}>
             <div className="book">
               <div className="book-top">
-                <img alt="Book Cover" className="book-cover" src={ item.book.imageLinks.thumbnail }/>
+                <img alt="Book Cover" className="book-cover" src={
+                  this.renderThumbnail(item.book)
+                }/>
                 <div className="book-shelf-changer">
                   <select
                     defaultValue={item.book.shelf}
