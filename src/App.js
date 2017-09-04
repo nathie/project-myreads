@@ -26,7 +26,9 @@ class BooksApp extends React.Component {
 
     // Add new book to my book list
     bookList.push({ index: index, book: newBook })
-    this.setState({ books: bookList});
+    this.setState({ books: bookList})
+
+    BooksAPI.update(newBook, newBook.shelfName)
 
   }
 
