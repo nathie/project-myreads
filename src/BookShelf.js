@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 
 class BookShelf extends Component {
   static propTypes = {
-    bookList: PropTypes.array.isRequired,
-    onMoveToShelf: PropTypes.func.isRequired
+    bookList: PropTypes.array.isRequired
   }
 
   renderAuthorList = (authors) => {
@@ -27,7 +26,7 @@ class BookShelf extends Component {
 
   render() {
 
-    let { bookList, onMoveToShelf } = this.props
+    let { bookList, onMoveToShelf, updateMainBookList } = this.props
 
     return (
 
@@ -41,15 +40,17 @@ class BookShelf extends Component {
                 }/>
                 <div className="book-shelf-changer">
                   <select
-                    defaultValue={item.book.shelf}
+                    defaultValue={item.book.hasOwnProperty('shelf')? item.book.shelf: 'disabled'}
+                    //defaultValue={item.book.shelf}
                     onChange={(event) => {
                       if(item.book.hasOwnProperty('shelf'))
                         onMoveToShelf(item.index, event.target.value)
-                      else
+                      else {
                         // Add new book to shelf
-                        onMoveToShelf(item.book, event.target.value)
+                        updateMainBookList(item.book, event.target.value)
+                      }
                     }}>
-                    <option value="none" disabled>Move to...</option>
+                    <option value="disabled" disabled>Move to...</option>
                     <option value="currentlyReading">Currently Reading</option>
                     <option value="wantToRead">Want to Read</option>
                     <option value="read">Read</option>

@@ -36,10 +36,23 @@ class SearchBook extends Component {
       this.setState({ bookList: [] })
   }
 
+  updateMainBookList = (newBook, shelfName) => {
+
+    // Add Shelf property to the book object
+    newBook.shelf = shelfName
+
+    BooksAPI.get(newBook.id).then((book) => {
+      BooksAPI.update(book, shelfName)
+    })
+
+    this.props.addToShelf(newBook)
+
+  }
+
   render() {
 
     const bookList = this.state.bookList
-
+console.log("Search bookList",bookList);
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -59,7 +72,9 @@ class SearchBook extends Component {
           {bookList.length ? (
             <BookShelf
               bookList={ bookList }
-              onMoveToShelf={ this.props.addToShelf } />
+              onMoveToShelf={this.props.onMoveToShelf}
+              updateMainBookList={ this.updateMainBookList.bind(this) }
+            />
           ) : (
             <h4>No results</h4>
           )}
