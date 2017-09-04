@@ -20,18 +20,6 @@ class BooksApp extends React.Component {
     this.getAllMyBooks()
   }
 
-  addToShelf = (newBook) => {
-    /*let bookList = this.state.books
-    let index = bookList.length
-
-    // Add new book to my book list
-    bookList.push({ index: index, book: newBook })
-    this.setState({ books: bookList})
-
-    BooksAPI.update(newBook, newBook.shelfName)*/
-
-  }
-
   moveToShelf = (newBook, shelfName) => {
 
     BooksAPI.update(newBook, shelfName)
@@ -51,8 +39,8 @@ class BooksApp extends React.Component {
 
         <Route exact path='/search' render={({ history }) => (
           <SearchBook
-            addToShelf={this.addToShelf.bind(this)}
-            onMoveToShelf={this.moveToShelf.bind(this)} />
+            onMoveToShelf={this.moveToShelf.bind(this)}
+            booksOnShelves={this.state.books}  />
         )}/>
       </div>
     )
