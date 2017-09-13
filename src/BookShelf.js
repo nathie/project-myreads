@@ -37,7 +37,7 @@ class BookShelf extends Component {
 
   render() {
 
-    let { bookList, onMoveToShelf, updateMainBookList } = this.props
+    const { bookList, onMoveToShelf, updateMainBookList } = this.props
 
     return (
 
@@ -52,7 +52,6 @@ class BookShelf extends Component {
                 <div className="book-shelf-changer">
                   <select
                     defaultValue={book.hasOwnProperty('shelf')? book.shelf: 'disabled'}
-                    //defaultValue={item.book.shelf}
                     onChange={(event) => {
 
                       /*
@@ -67,7 +66,6 @@ class BookShelf extends Component {
                         // Add a owned book to a new shelf
                         onMoveToShelf(book, event.target.value)
                       else {
-                        // Add new book to shelf
                         // Add new book to a shelf
                         updateMainBookList(book, event.target.value)
                       }
@@ -80,7 +78,7 @@ class BookShelf extends Component {
                   </select>
                 </div>
               </div>
-              <div className="book-title">{   book.title }</div>
+              <div className="book-title">{ book.title }</div>
               {this.renderAuthorList(book.authors)}
             </div>
           </li>
