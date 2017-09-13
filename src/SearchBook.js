@@ -14,6 +14,11 @@ class SearchBook extends Component {
     bookList: []
   }
 
+  /*
+    Finds the books on shelves that match the query
+    to add them the 'shelf' property to keep/show their
+    shelf location
+  */
   mergeBookLists = (booksOnShelves, searchBooks) => {
 
     booksOnShelves.map((shelfBook) => {
@@ -29,6 +34,12 @@ class SearchBook extends Component {
     return searchBooks;
   }
 
+  /*
+    Updates results view.
+
+    query: Search input text value
+    booklist: List of books that match the query
+  */
   updateSearchState = (query, bookList) => {
     let searchResults = null;
 
@@ -45,6 +56,7 @@ class SearchBook extends Component {
     }
   }
 
+  // Creates new query after a key pressed
   updateQuery = (query) => {
     query.length ?
       BooksAPI.search(query).then(this.updateSearchState.bind(this, query)) :

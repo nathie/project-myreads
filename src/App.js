@@ -20,6 +20,7 @@ class BooksApp extends React.Component {
     this.getAllMyBooks()
   }
 
+  // Add a book to a new shelf
   moveToShelf = (newBook, shelfName) => {
 
     BooksAPI.update(newBook, shelfName)
@@ -31,6 +32,9 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
         <Route exact path='/' render={() => (
+          /*
+            Component that contain book shelves
+          */
           <ListBooks
             books={this.state.books}
             onMoveToShelf={this.moveToShelf.bind(this)}
@@ -38,6 +42,9 @@ class BooksApp extends React.Component {
         )}/>
 
         <Route exact path='/search' render={({ history }) => (
+          /*
+            Component that contain search section
+          */
           <SearchBook
             onMoveToShelf={this.moveToShelf.bind(this)}
             booksOnShelves={this.state.books}  />

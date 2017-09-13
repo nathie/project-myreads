@@ -1,11 +1,21 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+/*--------
+
+Creates the list of books of a shelf.
+
+--------*/
 class BookShelf extends Component {
+
+  /*
+    [Required] bookList: List of books of a shelf
+  */
   static propTypes = {
     bookList: PropTypes.array.isRequired
   }
 
+  // Returns the list of authors of a book
   renderAuthorList = (authors) => {
     if (authors === undefined) {
       return (<p>This book has no authors</p>)
@@ -17,6 +27,7 @@ class BookShelf extends Component {
     }
   }
 
+  // Returns the book's cover or a default one.
   renderThumbnail = (book) => {
     if(book.imageLinks)
       return book.imageLinks.thumbnail
@@ -43,10 +54,21 @@ class BookShelf extends Component {
                     defaultValue={book.hasOwnProperty('shelf')? book.shelf: 'disabled'}
                     //defaultValue={item.book.shelf}
                     onChange={(event) => {
+
+                      /*
+                       If a book has the 'shelf' property,
+                       means that it is assigned to a shelf
+                       and just needs to be relocated
+
+                       Otherwise, the book has to be added to
+                       the list of displayed books.
+                      */
                       if(book.hasOwnProperty('shelf'))
+                        // Add a owned book to a new shelf
                         onMoveToShelf(book, event.target.value)
                       else {
                         // Add new book to shelf
+                        // Add new book to a shelf
                         updateMainBookList(book, event.target.value)
                       }
                     }}>
