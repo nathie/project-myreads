@@ -3,16 +3,27 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import BookShelf from './BookShelf'
 
+/*--------
+
+Displays the list of books categorized by shelve.
+
+--------*/
 class ListBooks extends Component {
+
+  /*
+    [Required]
+    - books: Array of books to show on shelves
+    - onMoveToShelf: Function called when a book's state changes
+  */
   static propTypes = {
     books: PropTypes.array.isRequired,
     onMoveToShelf: PropTypes.func.isRequired
   }
 
   filterByShelf = (shelfName) => {
-    return (acc, item) => {
-      if(item.book.shelf === shelfName) {
-        acc.push(item)
+    return (acc, book) => {
+      if(book.shelf === shelfName) {
+        acc.push(book)
       }
       return acc
     }
@@ -23,6 +34,7 @@ class ListBooks extends Component {
     const { books, onMoveToShelf } = this.props
     let currentBooks, wantBooks, readBooks
 
+    // Separate the list of books by shelve
     currentBooks = books.reduce(this.filterByShelf('currentlyReading'), [])
     wantBooks = books.reduce(this.filterByShelf('wantToRead'), [])
     readBooks = books.reduce(this.filterByShelf('read'), [])

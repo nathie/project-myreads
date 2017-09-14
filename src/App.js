@@ -10,48 +10,31 @@ class BooksApp extends React.Component {
     books: []
   }
 
-  componentDidMount = () => {
-
-    let bookIndexed
-
+  getAllMyBooks = () => {
     BooksAPI.getAll().then((books) => {
-      bookIndexed = books.map((book, i) => ({index: i, book: book}));
-      this.setState({ books: bookIndexed })
+      this.setState({ books: books })
     })
   }
 
-  addToShelf = (newBook) => {
-    let bookList = this.state.books
-    let index = bookList.length
-
-    // Add new book to my book list
-    bookList.push({ index: index, book: newBook })
-    this.setState({ books: bookList})
-
-    BooksAPI.update(newBook, newBook.shelfName)
-
+  componentDidMount = () => {
+    this.getAllMyBooks()
   }
 
-  moveToShelf = (index, shelfName) => {
-    let book, bookList = this.state.books
+  // Add a book to a new shelf
+  moveToShelf = (newBook, shelfName) => {
 
-    bookList.filter((item) => {
-      if(item.index === index) {
-        book = item.book
-        book.shelf = shelfName
-      }
-      return false;
-    })
+    BooksAPI.update(newBook, shelfName)
 
-    this.setState({ books: bookList })
-
-    BooksAPI.update(book, shelfName)
+    this.getAllMyBooks()
   }
 
   render() {
     return (
       <div className="app">
         <Route exact path='/' render={() => (
+          /*
+            Component that contain book shelves
+          */
           <ListBooks
             books={this.state.books}
             onMoveToShelf={this.moveToShelf.bind(this)}
@@ -59,9 +42,12 @@ class BooksApp extends React.Component {
         )}/>
 
         <Route exact path='/search' render={({ history }) => (
+          /*
+            Component that contain search section
+          */
           <SearchBook
-            addToShelf={this.addToShelf.bind(this)}
-            onMoveToShelf={this.moveToShelf.bind(this)} />
+            onMoveToShelf={this.moveToShelf.bind(this)}
+            booksOnShelves={this.state.books}  />
         )}/>
       </div>
     )

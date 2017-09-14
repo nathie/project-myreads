@@ -1,11 +1,21 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+/*--------
+
+Creates the list of books of a shelf.
+
+--------*/
 class BookShelf extends Component {
+
+  /*
+    [Required] bookList: List of books of a shelf
+  */
   static propTypes = {
     bookList: PropTypes.array.isRequired
   }
 
+  // Returns the list of authors of a book
   renderAuthorList = (authors) => {
     if (authors === undefined) {
       return (<p>This book has no authors</p>)
@@ -17,6 +27,7 @@ class BookShelf extends Component {
     }
   }
 
+  // Returns the book's cover or a default one.
   renderThumbnail = (book) => {
     if(book.imageLinks)
       return book.imageLinks.thumbnail
@@ -26,28 +37,37 @@ class BookShelf extends Component {
 
   render() {
 
-    let { bookList, onMoveToShelf, updateMainBookList } = this.props
+    const { bookList, onMoveToShelf, updateMainBookList } = this.props
 
     return (
 
       <ol className="books-grid">
-        {bookList.map((item) => (
-          <li key={item.book.id ? item.book.id : ""}>
+        {bookList.map((book) => (
+          <li key={book.id ? book.id : ""}>
             <div className="book">
               <div className="book-top">
                 <img alt="Book Cover" className="book-cover" src={
-                  this.renderThumbnail(item.book)
+                  this.renderThumbnail(book)
                 }/>
                 <div className="book-shelf-changer">
                   <select
-                    defaultValue={item.book.hasOwnProperty('shelf')? item.book.shelf: 'disabled'}
-                    //defaultValue={item.book.shelf}
+                    defaultValue={book.hasOwnProperty('shelf')? book.shelf: 'disabled'}
                     onChange={(event) => {
-                      if(item.book.hasOwnProperty('shelf'))
-                        onMoveToShelf(item.index, event.target.value)
+
+                      /*
+                       If a book has the 'shelf' property,
+                       means that it is assigned to a shelf
+                       and just needs to be relocated
+
+                       Otherwise, the book has to be added to
+                       the list of displayed books.
+                      */
+                      if(book.hasOwnProperty('shelf'))
+                        // Add a owned book to a new shelf
+                        onMoveToShelf(book, event.target.value)
                       else {
-                        // Add new book to shelf
-                        updateMainBookList(item.book, event.target.value)
+                        // Add new book to a shelf
+                        updateMainBookList(book, event.target.value)
                       }
                     }}>
                     <option value="disabled" disabled>Move to...</option>
@@ -58,8 +78,8 @@ class BookShelf extends Component {
                   </select>
                 </div>
               </div>
-              <div className="book-title">{ item.book.title }</div>
-              {this.renderAuthorList(item.book.authors)}
+              <div className="book-title">{ book.title }</div>
+              {this.renderAuthorList(book.authors)}
             </div>
           </li>
         ))}

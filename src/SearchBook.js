@@ -6,7 +6,7 @@ import BookShelf from './BookShelf'
 
 class SearchBook extends Component {
   static propTypes = {
-    addToShelf: PropTypes.func.isRequired
+    booksOnShelves: PropTypes.array.isRequired
   }
 
   state = {
@@ -14,6 +14,32 @@ class SearchBook extends Component {
     bookList: []
   }
 
+  /*
+    Finds the books on shelves that match the query
+    to add them the 'shelf' property to keep/show their
+    shelf location
+  */
+  mergeBookLists = (booksOnShelves, searchBooks) => {
+
+    booksOnShelves.map((shelfBook) => {
+
+      searchBooks.map((searchBook) => {
+        if(shelfBook.id === searchBook.id)
+          searchBook.shelf = shelfBook.shelf
+        return false
+      })
+      return false
+    })
+
+    return searchBooks;
+  }
+
+  /*
+    Updates results view.
+
+    query: Search input text value
+    booklist: List of books that match the query
+  */
   updateSearchState = (query, bookList) => {
     let searchResults = null;
 
@@ -25,11 +51,12 @@ class SearchBook extends Component {
       console.error("API Error: ", bookList.error)
 
     } else {
-      searchResults = bookList.map((book, i) => ({index: i, book: book}));
+      searchResults = this.mergeBookLists(this.props.booksOnShelves, bookList)
       this.setState({ query: query, bookList: searchResults });
     }
   }
 
+  // Creates new query after a key pressed
   updateQuery = (query) => {
     query.length ?
       BooksAPI.search(query).then(this.updateSearchState.bind(this, query)) :
@@ -44,15 +71,12 @@ class SearchBook extends Component {
     BooksAPI.get(newBook.id).then((book) => {
       BooksAPI.update(book, shelfName)
     })
-
-    this.props.addToShelf(newBook)
-
   }
 
   render() {
 
     const bookList = this.state.bookList
-console.log("Search bookList",bookList);
+
     return (
       <div className="search-books">
         <div className="search-books-bar">
