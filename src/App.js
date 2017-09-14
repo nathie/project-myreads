@@ -6,6 +6,7 @@ import ListBooks from './ListBooks'
 import SearchBook from './SearchBook'
 
 class BooksApp extends React.Component {
+
   state = {
     books: []
   }
@@ -37,7 +38,7 @@ class BooksApp extends React.Component {
           */
           <ListBooks
             books={this.state.books}
-            onMoveToShelf={this.moveToShelf.bind(this)}
+            onMoveToShelf={this.moveToShelf}
           />
         )}/>
 
@@ -46,7 +47,7 @@ class BooksApp extends React.Component {
             Component that contain search section
           */
           <SearchBook
-            onMoveToShelf={this.moveToShelf.bind(this)}
+            onMoveToShelf={this.moveToShelf}
             booksOnShelves={this.state.books}  />
         )}/>
       </div>
