@@ -27,14 +27,6 @@ class BookShelf extends Component {
     }
   }
 
-  // Returns the book's cover or a default one.
-  renderThumbnail = (book) => {
-    if(book.imageLinks)
-      return book.imageLinks.thumbnail
-    else
-      return "https://books.google.com/googlebooks/images/no_cover_thumb.gif"
-  }
-
   render() {
 
     const { bookList, onMoveToShelf, updateMainBookList } = this.props
@@ -46,9 +38,14 @@ class BookShelf extends Component {
           <li key={book.id ? book.id : ""}>
             <div className="book">
               <div className="book-top">
-                <img alt="Book Cover" className="book-cover" src={
-                  this.renderThumbnail(book)
-                }/>
+                <img
+                  alt="Book Cover"
+                  className="book-cover"
+                  src={ book.imageLinks ?
+                    book.imageLinks.thumbnail :
+                    "https://books.google.com/googlebooks/images/no_cover_thumb.gif"
+                  }
+                />
                 <div className="book-shelf-changer">
                   <select
                     defaultValue={book.hasOwnProperty('shelf')? book.shelf: 'disabled'}
