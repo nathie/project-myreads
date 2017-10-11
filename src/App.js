@@ -24,9 +24,9 @@ class BooksApp extends React.Component {
   // Add a book to a new shelf
   moveToShelf = (newBook, shelfName) => {
 
-    BooksAPI.update(newBook, shelfName)
-
-    this.getAllMyBooks()
+    BooksAPI.update(newBook, shelfName).then((result) => {
+      this.getAllMyBooks()
+    })
   }
 
   render() {
